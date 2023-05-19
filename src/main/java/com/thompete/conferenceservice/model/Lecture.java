@@ -3,7 +3,6 @@ package com.thompete.conferenceservice.model;
 import java.time.LocalDateTime;
 
 public class Lecture {
-    private static int maxListeners = 5;
     private long id;
     private String title;
     private LocalDateTime startDate;
@@ -14,10 +13,6 @@ public class Lecture {
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
-    }
-
-    public static int getMaxListeners() {
-        return maxListeners;
     }
 
     public long getId() {

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 
 public class Conference {
+    private static int maxListenersPerLecture= 5;
     private static long lectureCounter = 0L;
     private String title;
     private LocalDateTime startDate;
@@ -28,6 +29,10 @@ public class Conference {
         this.lectureLength = timeBlockLength - breakLength;
     }
 
+    public static int getMaxListenersPerLecture() {
+        return maxListenersPerLecture;
+    }
+
     public void addLecture(String title, int timeBlock, int path) {
         LocalDateTime start = startDate.plusMinutes((long) timeBlock * timeBlockLength);
         LocalDateTime end = start.plusMinutes(lectureLength);
@@ -49,5 +54,21 @@ public class Conference {
             }
         }
         return result;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public Lecture[][] getPlan() {
+        return plan;
     }
 }
