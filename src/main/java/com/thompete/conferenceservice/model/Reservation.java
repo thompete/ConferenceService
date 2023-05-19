@@ -3,24 +3,24 @@ package com.thompete.conferenceservice.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Registration")
-public class Registration {
+@Table(name = "Reservation")
+public class Reservation {
 
     @Id
     @GeneratedValue
-    @Column(name = "idRegistration")
+    @Column(name = "idReservation")
     private long id;
 
     @ManyToOne
-    @JoinColumn(name = "idUser", nullable = false)
+    @JoinColumn(name = "login", nullable = false)
     private User user;
 
     @Column(name = "idLecture", nullable = false)
     private long lectureId;
 
-    public Registration() {}
+    public Reservation() {}
 
-    public Registration(User user, long lectureId) {
+    public Reservation(User user, long lectureId) {
         this.user = user;
         this.lectureId = lectureId;
     }

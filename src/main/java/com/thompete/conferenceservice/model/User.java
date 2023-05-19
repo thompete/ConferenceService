@@ -9,16 +9,12 @@ import org.hibernate.validator.constraints.Length;
 public class User {
 
     @Id
-    @GeneratedValue
-    @Column(name = "idUser")
-    private long id;
-
-    @Column(name = "login", unique = true, nullable = false)
-    @Length(min = 2, message = "Login should have at least 2 characters")
+    @Column(name = "login")
+    @Length(min = 2, message = "Login musi zawierać co najmniej 2 znaki")
     private String login;
 
     @Column(name = "email", unique = true, nullable = false)
-    @Email
+    @Email(message = "To nie jest poprawny adres email")
     private String email;
 
     public User() {}
@@ -26,10 +22,6 @@ public class User {
     public User(String login, String email) {
         this.login = login;
         this.email = email;
-    }
-
-    public long getId() {
-        return id;
     }
 
     public String getLogin() {
