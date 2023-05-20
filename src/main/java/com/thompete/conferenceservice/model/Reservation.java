@@ -12,7 +12,7 @@ public class Reservation {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name = "login", nullable = false)
+    @JoinColumn(name = "idUser", nullable = false)
     private User user;
 
     @Column(name = "idLecture", nullable = false)
@@ -23,6 +23,10 @@ public class Reservation {
     public Reservation(User user, long lectureId) {
         this.user = user;
         this.lectureId = lectureId;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public User getUser() {

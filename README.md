@@ -9,8 +9,8 @@ Linux/macOS: ./mvnw spring-boot:run
 ### Endpoints:
 
 - GET /conference - get conference plan
-- GET /reservations?login={login} - get user's lecture reservations
-- POST /reservations?login={login}&email={email} - create lecture reservation for a user
+- GET /reservations/login - get user's lecture reservations
+- POST /reservations - create lecture reservation
 - DELETE /reservations/{id} - delete reservation
 - GET /users - get all users
 - PUT /users - update user's email

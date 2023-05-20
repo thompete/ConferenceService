@@ -22,7 +22,8 @@ public class ConferenceServiceApplication {
                 3,
                 3,
                 120,
-                15
+                15,
+                5
         );
         conference.addLecture("Sed quis bibendum lorem", 0, 0);
         conference.addLecture("In hac habitasse platea dictumst", 0, 1);

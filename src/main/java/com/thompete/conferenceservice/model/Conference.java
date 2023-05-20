@@ -3,9 +3,11 @@ package com.thompete.conferenceservice.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Conference {
-    private static int maxListenersPerLecture= 5;
     private static long lectureCounter = 0L;
     private String title;
     private LocalDateTime startDate;
@@ -15,10 +17,12 @@ public class Conference {
     private int timeBlockLength;
     @JsonIgnore
     private int lectureLength;
+    @JsonIgnore
+    private int maxListenersPerLecture;
 
     public Conference(
-            String title, LocalDateTime startDate, int numberOfPaths,
-            int numberOfTimeBlocks, int timeBlockLength, int breakLength
+            String title, LocalDateTime startDate, int numberOfPaths, int numberOfTimeBlocks,
+            int timeBlockLength, int breakLength, int maxListenersPerLecture
     ) {
         this.title = title;
         this.startDate = startDate;
@@ -27,16 +31,13 @@ public class Conference {
         this.endDate = startDate.plusMinutes(confLength);
         this.timeBlockLength = timeBlockLength;
         this.lectureLength = timeBlockLength - breakLength;
-    }
-
-    public static int getMaxListenersPerLecture() {
-        return maxListenersPerLecture;
+        this.maxListenersPerLecture = maxListenersPerLecture;
     }
 
     public void addLecture(String title, int timeBlock, int path) {
         LocalDateTime start = startDate.plusMinutes((long) timeBlock * timeBlockLength);
         LocalDateTime end = start.plusMinutes(lectureLength);
-        plan[timeBlock][path] = new Lecture(lectureCounter++, title, start, end);
+        plan[timeBlock][path] = new Lecture(lectureCounter++, title, start, end, timeBlock, path);
     }
 
     public Lecture getLecture(int timeBlock, int path) {
@@ -56,6 +57,14 @@ public class Conference {
         return result;
     }
 
+    public List<Lecture> getTimeBlock(int timeBlock) {
+        return Arrays.asList(plan[timeBlock]);
+    }
+
+    public List<Lecture> getAllLectures() {
+        return Arrays.stream(plan).flatMap(Arrays::stream).collect(Collectors.toList());
+    }
+
     public String getTitle() {
         return title;
     }
@@ -70,5 +79,9 @@ public class Conference {
 
     public Lecture[][] getPlan() {
         return plan;
+    }
+
+    public int getMaxListenersPerLecture() {
+        return maxListenersPerLecture;
     }
 }

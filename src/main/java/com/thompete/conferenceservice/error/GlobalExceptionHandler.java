@@ -1,7 +1,7 @@
-package com.thompete.conferenceservice.error.handler;
+package com.thompete.conferenceservice.error;
 
-import com.thompete.conferenceservice.error.exception.UserConflictException;
-import com.thompete.conferenceservice.error.exception.UserNotFoundException;
+import com.thompete.conferenceservice.error.exception.ConflictException;
+import com.thompete.conferenceservice.error.exception.NotFoundException;
 import com.thompete.conferenceservice.error.response.ValidationExceptionResponse;
 import com.thompete.conferenceservice.error.response.ExceptionResponse;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler
-    public ResponseEntity<ExceptionResponse> handleCreateUserException(UserConflictException e) {
+    public ResponseEntity<ExceptionResponse> handleConflictException(ConflictException e) {
         ExceptionResponse response = new ExceptionResponse();
         response.setTimestamp(Instant.now());
         response.setStatus(HttpStatus.CONFLICT.value());
@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<ExceptionResponse> handleUserNotFoundException(UserNotFoundException e) {
+    public ResponseEntity<ExceptionResponse> handleNotFoundException(NotFoundException e) {
         ExceptionResponse response = new ExceptionResponse();
         response.setTimestamp(Instant.now());
         response.setStatus(HttpStatus.NOT_FOUND.value());
@@ -48,6 +48,15 @@ public class GlobalExceptionHandler {
             errors.put(fieldName, errorMessage);
         });
         response.setErrors(errors);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ExceptionResponse> handleException(Exception e) {
+        ExceptionResponse response = new ExceptionResponse();
+        response.setTimestamp(Instant.now());
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        response.setMessage(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }
