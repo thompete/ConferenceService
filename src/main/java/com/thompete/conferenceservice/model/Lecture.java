@@ -45,4 +45,9 @@ public class Lecture {
     public int getPath() {
         return path;
     }
+
+    @Override
+    public String toString() {
+        return title;
+    }
 }

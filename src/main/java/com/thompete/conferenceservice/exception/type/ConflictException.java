@@ -1,4 +1,4 @@
-package com.thompete.conferenceservice.error.exception;
+package com.thompete.conferenceservice.exception.type;
 
 public class ConflictException extends RuntimeException {
     public ConflictException(String message) {

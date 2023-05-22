@@ -1,7 +1,7 @@
 package com.thompete.conferenceservice.controller;
 
 import com.thompete.conferenceservice.model.User;
-import com.thompete.conferenceservice.service.UserService;
+import com.thompete.conferenceservice.service.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,10 +13,10 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    UserService userService;
+    IUserService userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(IUserService userService) {
         this.userService = userService;
     }
 

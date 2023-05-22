@@ -36,4 +36,9 @@ public class Reservation {
     public long getLectureId() {
         return lectureId;
     }
+
+    @Override
+    public String toString() {
+        return "User: " + user + " lecture id: " + lectureId;
+    }
 }

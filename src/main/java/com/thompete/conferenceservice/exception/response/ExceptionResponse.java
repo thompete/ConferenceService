@@ -1,4 +1,4 @@
-package com.thompete.conferenceservice.error.response;
+package com.thompete.conferenceservice.exception.response;
 
 import java.time.Instant;
 

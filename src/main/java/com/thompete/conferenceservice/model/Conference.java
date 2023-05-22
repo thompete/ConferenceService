@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Conference {
     private static long lectureCounter = 0L;
@@ -61,10 +60,6 @@ public class Conference {
         return Arrays.asList(plan[timeBlock]);
     }
 
-    public List<Lecture> getAllLectures() {
-        return Arrays.stream(plan).flatMap(Arrays::stream).collect(Collectors.toList());
-    }
-
     public String getTitle() {
         return title;
     }
@@ -83,5 +78,10 @@ public class Conference {
 
     public int getMaxListenersPerLecture() {
         return maxListenersPerLecture;
+    }
+
+    @Override
+    public String toString() {
+        return title;
     }
 }

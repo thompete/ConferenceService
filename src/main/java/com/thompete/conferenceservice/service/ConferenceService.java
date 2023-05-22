@@ -2,13 +2,37 @@ package com.thompete.conferenceservice.service;
 
 import com.thompete.conferenceservice.model.Conference;
 import com.thompete.conferenceservice.model.Lecture;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface ConferenceService {
-    Conference getConference();
-    Lecture getLecture(long id);
+@Service
+public class ConferenceService implements IConferenceService {
+    Conference conference;
 
-    List<Lecture> getTimeBlock(int id);
-    int getMaxListenersPerLecture();
+    @Autowired
+    public ConferenceService(Conference conference) {
+        this.conference = conference;
+    }
+
+    @Override
+    public Conference getConference() {
+        return conference;
+    }
+
+    @Override
+    public Lecture getLecture(long id) {
+        return conference.getLecture(id);
+    }
+
+    @Override
+    public List<Lecture> getTimeBlock(int timeBlock) {
+        return conference.getTimeBlock(timeBlock);
+    }
+
+    @Override
+    public int getMaxListenersPerLecture() {
+        return conference.getMaxListenersPerLecture();
+    }
 }

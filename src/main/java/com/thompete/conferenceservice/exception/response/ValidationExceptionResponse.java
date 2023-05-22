@@ -1,6 +1,4 @@
-package com.thompete.conferenceservice.error.response;
-
-import com.thompete.conferenceservice.error.response.ExceptionResponse;
+package com.thompete.conferenceservice.exception.response;
 
 import java.util.Map;
 

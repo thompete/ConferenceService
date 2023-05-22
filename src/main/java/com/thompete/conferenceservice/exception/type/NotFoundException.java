@@ -1,4 +1,4 @@
-package com.thompete.conferenceservice.error.exception;
+package com.thompete.conferenceservice.exception.type;
 
 public class NotFoundException extends RuntimeException {
     public NotFoundException(String message) {

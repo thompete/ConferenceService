@@ -1,9 +1,10 @@
-package com.thompete.conferenceservice.error;
+package com.thompete.conferenceservice.exception;
 
-import com.thompete.conferenceservice.error.exception.ConflictException;
-import com.thompete.conferenceservice.error.exception.NotFoundException;
-import com.thompete.conferenceservice.error.response.ValidationExceptionResponse;
-import com.thompete.conferenceservice.error.response.ExceptionResponse;
+import com.thompete.conferenceservice.exception.type.ConflictException;
+import com.thompete.conferenceservice.exception.type.NotFoundException;
+import com.thompete.conferenceservice.exception.response.ValidationExceptionResponse;
+import com.thompete.conferenceservice.exception.response.ExceptionResponse;
+import com.thompete.conferenceservice.exception.type.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -17,22 +18,25 @@ import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
     @ExceptionHandler
     public ResponseEntity<ExceptionResponse> handleConflictException(ConflictException e) {
-        ExceptionResponse response = new ExceptionResponse();
-        response.setTimestamp(Instant.now());
-        response.setStatus(HttpStatus.CONFLICT.value());
-        response.setMessage(e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+        return handleException(e, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler
     public ResponseEntity<ExceptionResponse> handleNotFoundException(NotFoundException e) {
-        ExceptionResponse response = new ExceptionResponse();
-        response.setTimestamp(Instant.now());
-        response.setStatus(HttpStatus.NOT_FOUND.value());
-        response.setMessage(e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return handleException(e, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ExceptionResponse> handleUnauthorizedException(UnauthorizedException e) {
+        return handleException(e, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ExceptionResponse> handleOtherExceptions(Exception e) {
+        return handleException(e, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
@@ -51,12 +55,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler
-    public ResponseEntity<ExceptionResponse> handleException(Exception e) {
+    public ResponseEntity<ExceptionResponse> handleException(Exception e, HttpStatus status) {
         ExceptionResponse response = new ExceptionResponse();
         response.setTimestamp(Instant.now());
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        response.setStatus(status.value());
         response.setMessage(e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, status);
     }
 }
