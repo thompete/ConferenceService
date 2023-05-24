@@ -3,6 +3,7 @@ package com.thompete.conferenceservice.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +14,9 @@ public class Conference {
     private String title;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private Lecture[][] plan;
+    private Path[] plan;
+    @JsonIgnore
+    private int numberOfTimeBlocks;
     @JsonIgnore
     private int timeBlockLength;
     @JsonIgnore
@@ -27,7 +30,8 @@ public class Conference {
     ) {
         this.title = title;
         this.startDate = startDate;
-        this.plan = new Lecture[numberOfTimeBlocks][numberOfPaths];
+        this.plan = new Path[numberOfPaths];
+        this.numberOfTimeBlocks = numberOfTimeBlocks;
         int confLength = numberOfTimeBlocks * timeBlockLength - breakLength;
         this.endDate = startDate.plusMinutes(confLength);
         this.timeBlockLength = timeBlockLength;
@@ -35,21 +39,39 @@ public class Conference {
         this.maxListenersPerLecture = maxListenersPerLecture;
     }
 
-    public void addLecture(String title, int timeBlock, int path) {
-        LocalDateTime start = startDate.plusMinutes((long) timeBlock * timeBlockLength);
-        LocalDateTime end = start.plusMinutes(lectureLength);
-        plan[timeBlock][path] = new Lecture(lectureCounter++, title, start, end, timeBlock, path);
+    public long incrementLectureCounter() {
+        return lectureCounter++;
+    }
+
+    public Path addPath(String name) {
+        Path path = null;
+        for (int i = 0; i < plan.length; i++) {
+            if (plan[i] == null) {
+                plan[i] = path = new Path(i, name, this);
+                break;
+            }
+        }
+        return path;
+    }
+
+    @JsonIgnore
+    public List<Path> getAllPaths() {
+        return Arrays.asList(plan);
+    }
+
+    public void addLecture(String title, Path path) {
+        plan[path.getId()].addLecture(title);
     }
 
     @JsonIgnore
     public List<Lecture> getAllLectures() {
-        return Stream.of(plan).flatMap(Stream::of).collect(Collectors.toList());
+        return Stream.of(plan).flatMap(path -> path.getLectures().stream()).collect(Collectors.toList());
     }
 
     public Lecture getLecture(long id) {
         Lecture result = null;
-        outer: for (Lecture[] timeBlock : plan) {
-            for (Lecture lecture : timeBlock) {
+        outer: for (Path path : plan) {
+            for (Lecture lecture : path.getLectures()) {
                 if (id == lecture.getId()) {
                     result = lecture;
                     break outer;
@@ -59,8 +81,12 @@ public class Conference {
         return result;
     }
 
-    public List<Lecture> getTimeBlock(int timeBlock) {
-        return Arrays.asList(plan[timeBlock]);
+    public List<Lecture> getTimeBlockLectures(int timeBlock) {
+        List<Lecture> lectures = new ArrayList<>();
+        for (Path path : plan) {
+            lectures.add(path.getLecture(timeBlock));
+        }
+        return lectures;
     }
 
     public String getTitle() {
@@ -75,12 +101,24 @@ public class Conference {
         return endDate;
     }
 
-    public Lecture[][] getPlan() {
+    public Path[] getPlan() {
         return plan;
+    }
+
+    public int getNumberOfTimeBlocks() {
+        return numberOfTimeBlocks;
+    }
+
+    public int getTimeBlockLength() {
+        return timeBlockLength;
     }
 
     public int getMaxListenersPerLecture() {
         return maxListenersPerLecture;
+    }
+
+    public int getLectureLength() {
+        return lectureLength;
     }
 
     @Override

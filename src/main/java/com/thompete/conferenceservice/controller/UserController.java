@@ -4,7 +4,6 @@ import com.thompete.conferenceservice.model.User;
 import com.thompete.conferenceservice.service.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,12 +22,6 @@ public class UserController {
     @GetMapping
     public List<User> getAllUsers() {
         return userService.getAllUsers();
-    }
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public User createUser(@Valid @RequestBody User user) {
-        return userService.createUser(user);
     }
 
     @PutMapping

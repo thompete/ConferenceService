@@ -1,17 +1,36 @@
 # Conference Service
 
+A REST API that allows users to book places for conference lectures made in Spring Boot framework.
+
 ### Running:
 
-Windows: mvnw spring-boot:run
+In project's directory:
 
-Linux/macOS: ./mvnw spring-boot:run
+    ./mvnw spring-boot:run
 
 ### Endpoints:
 
-- GET /conference - get conference plan
-- GET /reservations/login - get user's lecture reservations
-- POST /reservations - create lecture reservation
+- GET /conference - get conference info and plan
+- POST /reservations - create lecture reservation (registering user if necessary)
+
+        {
+            "login": "{login}",
+            "email": "{email}",
+            "lectureId": {lectureId}
+        }
+
+- GET /reservations/{login} - get user's reservations
 - DELETE /reservations/{id} - delete reservation
 - GET /users - get all users
-- PUT /users - update user's email !FIXME
+- PUT /users - update user's email
+
+        {
+            "login": "{login}",
+            "email": "{email}"
+        }
+
 - GET /stats?for={"lectures"|"paths"}&order={"asc"|"desc"} - get statistics
+
+Postman collection for testing:
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/2730052-38760c4c-13fd-46d7-ab3d-41f3eaba7e34?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D2730052-38760c4c-13fd-46d7-ab3d-41f3eaba7e34%26entityType%3Dcollection%26workspaceId%3D7cc53cfd-41d7-4e0c-83e4-fbe884b9236e)

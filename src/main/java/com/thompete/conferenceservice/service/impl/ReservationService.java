@@ -7,6 +7,7 @@ import com.thompete.conferenceservice.exception.type.ConflictException;
 import com.thompete.conferenceservice.exception.type.NotFoundException;
 import com.thompete.conferenceservice.exception.type.UnauthorizedException;
 import com.thompete.conferenceservice.model.Lecture;
+import com.thompete.conferenceservice.model.Path;
 import com.thompete.conferenceservice.model.Reservation;
 import com.thompete.conferenceservice.model.User;
 import com.thompete.conferenceservice.repository.IReservationRepository;
@@ -104,8 +105,18 @@ public class ReservationService implements IReservationService {
     }
 
     @Override
-    public long countReservationsByLectureId(long lectureId) {
-        return reservationRepository.countByLectureId(lectureId);
+    public long countReservationsByLecture(Lecture lecture) {
+        return reservationRepository.countByLectureId(lecture.getId());
+    }
+
+    @Override
+    public long countReservationsByPath(Path path) {
+        long counter = 0;
+        List<GetReservationDto> reservations = getAllReservations();
+        for (GetReservationDto reservation : reservations) {
+            if (reservation.getLecture().getPathId() == path.getId()) counter++;
+        }
+        return counter;
     }
 
     private List<GetReservationDto> reservationsToGetReservationDtos(List<Reservation> reservations) {

@@ -1,8 +1,10 @@
 package com.thompete.conferenceservice.service.impl;
 
 import com.thompete.conferenceservice.dto.LectureStatisticsDto;
+import com.thompete.conferenceservice.dto.PathStatisticsDto;
 import com.thompete.conferenceservice.dto.StatisticsDto;
 import com.thompete.conferenceservice.model.Lecture;
+import com.thompete.conferenceservice.model.Path;
 import com.thompete.conferenceservice.service.IConferenceService;
 import com.thompete.conferenceservice.service.IReservationService;
 import com.thompete.conferenceservice.service.IStatisticsService;
@@ -30,6 +32,7 @@ public class StatisticsService implements IStatisticsService {
     public List<StatisticsDto> getStatistics(String type, String order) {
         List<StatisticsDto> stats = new ArrayList<>();
         long total = reservationService.countReservations();
+        if (total == 0) return stats;
 
         switch (type) {
             case "lectures" -> stats = getLectureStatistics(stats, total);
@@ -45,16 +48,24 @@ public class StatisticsService implements IStatisticsService {
     private List<StatisticsDto> getLectureStatistics(List<StatisticsDto> stats, long total) {
         List<Lecture> lectures = conferenceService.getAllLectures();
         lectures.forEach(lecture -> stats.add(new LectureStatisticsDto(
-                lecture,
                 Utils.round(
-                        (double) reservationService.countReservationsByLectureId(lecture.getId()) / total * 100,
+                        (double) reservationService.countReservationsByLecture(lecture) / total * 100,
                         2
-                )
+                ),
+                lecture
         )));
         return stats;
     }
 
     private List<StatisticsDto> getPathStatistics(List<StatisticsDto> stats, long total) {
-        return null;
+        List<Path> paths = conferenceService.getAllPaths();
+        paths.forEach(path -> stats.add(new PathStatisticsDto(
+                Utils.round(
+                        (double) reservationService.countReservationsByPath(path) / total * 100,
+                        2
+                ),
+                path
+        )));
+        return stats;
     }
 }

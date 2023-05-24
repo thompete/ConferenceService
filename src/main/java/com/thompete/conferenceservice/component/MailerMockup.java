@@ -39,7 +39,7 @@ public class MailerMockup implements IMailer {
     public void send(String email, String message) {
         String line = LocalDateTime.now().toString() + '\t' + email + '\t' + message + '\n';
         try {
-            Files.write(logsDirectory.resolve(Paths.get("mails.txt")), line.getBytes(),
+            Files.write(logsDirectory.resolve(Paths.get("powiadomienia.txt")), line.getBytes(),
                     StandardOpenOption.CREATE, StandardOpenOption.APPEND);
         } catch (IOException e) {
             e.printStackTrace();

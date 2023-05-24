@@ -2,6 +2,7 @@ package com.thompete.conferenceservice.service.impl;
 
 import com.thompete.conferenceservice.model.Conference;
 import com.thompete.conferenceservice.model.Lecture;
+import com.thompete.conferenceservice.model.Path;
 import com.thompete.conferenceservice.service.IConferenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,8 +34,13 @@ public class ConferenceService implements IConferenceService {
     }
 
     @Override
+    public List<Path> getAllPaths() {
+        return conference.getAllPaths();
+    }
+
+    @Override
     public List<Lecture> getTimeBlock(int timeBlock) {
-        return conference.getTimeBlock(timeBlock);
+        return conference.getTimeBlockLectures(timeBlock);
     }
 
     @Override

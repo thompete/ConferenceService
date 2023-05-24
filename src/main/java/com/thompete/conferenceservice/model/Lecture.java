@@ -12,15 +12,18 @@ public class Lecture {
     private LocalDateTime endDate;
     @JsonIgnore
     private int timeBlock;
-    private int path;
+    @JsonIgnore
+    private Path path;
+    private int pathId;
 
-    public Lecture(long id, String title, LocalDateTime startDate, LocalDateTime endDate, int timeBlock, int path) {
+    public Lecture(long id, String title, LocalDateTime startDate, LocalDateTime endDate, Path path, int timeBlock) {
         this.id = id;
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
         this.timeBlock = timeBlock;
         this.path = path;
+        this.pathId = path.getId();
     }
 
     public long getId() {
@@ -39,12 +42,12 @@ public class Lecture {
         return endDate;
     }
 
-    public int getTimeBlock() {
-        return timeBlock;
+    public int getPathId() {
+        return pathId;
     }
 
-    public int getPath() {
-        return path;
+    public int getTimeBlock() {
+        return timeBlock;
     }
 
     @Override

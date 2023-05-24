@@ -4,6 +4,7 @@ import com.thompete.conferenceservice.dto.StatisticsDto;
 import com.thompete.conferenceservice.service.IStatisticsService;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/stats")
+@Validated
 public class StatisticsController {
     private IStatisticsService statisticsService;
 
@@ -24,7 +26,7 @@ public class StatisticsController {
     @GetMapping
     public List<StatisticsDto> getStatistics(
             @Pattern(regexp = "(lectures|paths)") @RequestParam("for") String type,
-            @Pattern(regexp = "(asc|desc)") @RequestParam String order
+            @Pattern(regexp = "(asc|desc)") @RequestParam(defaultValue = "desc") String order
     ) {
         return statisticsService.getStatistics(type, order);
     }
