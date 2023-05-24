@@ -2,6 +2,8 @@ package com.thompete.conferenceservice.model;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "Reservation")
 public class Reservation {
@@ -35,6 +37,19 @@ public class Reservation {
 
     public long getLectureId() {
         return lectureId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Reservation that = (Reservation) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

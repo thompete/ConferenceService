@@ -3,6 +3,7 @@ package com.thompete.conferenceservice.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Lecture {
     private long id;
@@ -44,6 +45,19 @@ public class Lecture {
 
     public int getPath() {
         return path;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Lecture lecture = (Lecture) o;
+        return id == lecture.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

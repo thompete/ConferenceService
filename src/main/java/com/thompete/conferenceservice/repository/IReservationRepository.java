@@ -9,5 +9,5 @@ import java.util.List;
 public interface IReservationRepository extends JpaRepository<Reservation, Long> {
     List<Reservation> findByUserLogin(String login);
     boolean existsByUserAndLectureId(User user, long lectureId);
-    int countByLectureId(long lectureId);
+    long countByLectureId(long lectureId);
 }

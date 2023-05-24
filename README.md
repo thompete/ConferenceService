@@ -13,5 +13,5 @@ Linux/macOS: ./mvnw spring-boot:run
 - POST /reservations - create lecture reservation
 - DELETE /reservations/{id} - delete reservation
 - GET /users - get all users
-- PUT /users - update user's email
-- GET /stats?for={"lectures"|"paths"} - get statistics
+- PUT /users - update user's email !FIXME
+- GET /stats?for={"lectures"|"paths"}&order={"asc"|"desc"} - get statistics

@@ -1,9 +1,10 @@
-package com.thompete.conferenceservice.service;
+package com.thompete.conferenceservice.service.impl;
 
 import com.thompete.conferenceservice.exception.type.ConflictException;
 import com.thompete.conferenceservice.exception.type.NotFoundException;
 import com.thompete.conferenceservice.model.User;
 import com.thompete.conferenceservice.repository.IUserRepository;
+import com.thompete.conferenceservice.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

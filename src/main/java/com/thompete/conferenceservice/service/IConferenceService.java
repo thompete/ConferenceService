@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface IConferenceService {
     Conference getConference();
+    List<Lecture> getAllLectures();
     Lecture getLecture(long id);
-
     List<Lecture> getTimeBlock(int id);
     int getMaxListenersPerLecture();
 }

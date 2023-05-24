@@ -5,9 +5,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Conference {
-    private static long lectureCounter = 0L;
+    private static long lectureCounter = 0;
     private String title;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
@@ -39,8 +41,9 @@ public class Conference {
         plan[timeBlock][path] = new Lecture(lectureCounter++, title, start, end, timeBlock, path);
     }
 
-    public Lecture getLecture(int timeBlock, int path) {
-        return plan[timeBlock][path];
+    @JsonIgnore
+    public List<Lecture> getAllLectures() {
+        return Stream.of(plan).flatMap(Stream::of).collect(Collectors.toList());
     }
 
     public Lecture getLecture(long id) {

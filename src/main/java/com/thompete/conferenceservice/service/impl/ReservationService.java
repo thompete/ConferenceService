@@ -1,4 +1,4 @@
-package com.thompete.conferenceservice.service;
+package com.thompete.conferenceservice.service.impl;
 
 import com.thompete.conferenceservice.component.IMailer;
 import com.thompete.conferenceservice.dto.CreateReservationDto;
@@ -10,6 +10,9 @@ import com.thompete.conferenceservice.model.Lecture;
 import com.thompete.conferenceservice.model.Reservation;
 import com.thompete.conferenceservice.model.User;
 import com.thompete.conferenceservice.repository.IReservationRepository;
+import com.thompete.conferenceservice.service.IConferenceService;
+import com.thompete.conferenceservice.service.IReservationService;
+import com.thompete.conferenceservice.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,13 +39,16 @@ public class ReservationService implements IReservationService {
     }
 
     @Override
+    public List<GetReservationDto> getAllReservations() {
+        return reservationsToGetReservationDtos(reservationRepository.findAll());
+    }
+
+    @Override
     public List<GetReservationDto> getReservations(String login) {
         if (!userService.exists(login)) {
             throw new NotFoundException("Nie znaleziono użytkownika: " + login);
         }
-        return reservationRepository.findByUserLogin(login).stream()
-                .map(r -> new GetReservationDto(r.getId(), r.getUser(), conferenceService.getLecture(r.getLectureId())))
-                .collect(Collectors.toList());
+        return reservationsToGetReservationDtos(reservationRepository.findByUserLogin(login));
     }
 
     @Override
@@ -90,5 +96,21 @@ public class ReservationService implements IReservationService {
             throw new NotFoundException("Nie znaleziono rezerwacji: " + id);
         }
         reservationRepository.deleteById(id);
+    }
+
+    @Override
+    public long countReservations() {
+        return reservationRepository.count();
+    }
+
+    @Override
+    public long countReservationsByLectureId(long lectureId) {
+        return reservationRepository.countByLectureId(lectureId);
+    }
+
+    private List<GetReservationDto> reservationsToGetReservationDtos(List<Reservation> reservations) {
+        return reservations.stream()
+                .map(r -> new GetReservationDto(r.getId(), r.getUser(), conferenceService.getLecture(r.getLectureId())))
+                .collect(Collectors.toList());
     }
 }
