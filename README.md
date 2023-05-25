@@ -11,7 +11,7 @@ In project's directory:
 ### Endpoints:
 
 - GET /api/conference - get conference info and plan
-- POST /api/reservations - create lecture reservation (registering user if necessary)
+- POST /api/reservations - create lecture reservation (registering new user if necessary)
 
         {
             "login": "{login}",
