@@ -1,6 +1,6 @@
 # Conference Service
 
-A REST API that allows users to book places for conference lectures made in Spring Boot framework.
+A REST API that allows users to book places for conference lectures. Made with Spring Boot framework.
 
 ### Running:
 
