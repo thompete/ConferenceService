@@ -10,8 +10,8 @@ In project's directory:
 
 ### Endpoints:
 
-- GET /conference - get conference info and plan
-- POST /reservations - create lecture reservation (registering user if necessary)
+- GET /api/conference - get conference info and plan
+- POST /api/reservations - create lecture reservation (registering user if necessary)
 
         {
             "login": "{login}",
@@ -19,17 +19,17 @@ In project's directory:
             "lectureId": {lectureId}
         }
 
-- GET /reservations/{login} - get user's reservations
-- DELETE /reservations/{id} - delete reservation
-- GET /users - get all users
-- PUT /users - update user's email
+- GET /api/reservations/{login} - get user's reservations
+- DELETE /api/reservations/{id} - delete reservation
+- GET /api/users - get all users
+- PUT /api/users - update user's email
 
         {
             "login": "{login}",
             "email": "{email}"
         }
 
-- GET /stats?for={"lectures"|"paths"}&order={"asc"|"desc"} - get statistics
+- GET /api/stats?for={"lectures"|"paths"}&order={"asc"|"desc"} - get statistics
 
 Postman collection for testing:
 
